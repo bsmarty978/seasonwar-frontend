@@ -37,8 +37,7 @@ function SeasonWar() {
   const handleVote = async (season) => {
     try {
       await axios.post("/vote", { season });
-      // Fetch updated votes from the backend
-      fetchVotes();
+      fetchVotes(); // Fetch updated votes after voting
     } catch (error) {
       console.error("Error voting:", error); // Log the error for debugging
       setError("Error voting");
@@ -70,24 +69,94 @@ function SeasonWar() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <h1>Season War</h1>
-      <Pie data={data} />
-
-      <div style={{ marginTop: '20px' }}>
-        <button onClick={() => handleVote("spring")} disabled={loading}>Vote Spring</button>
-        <button onClick={() => handleVote("summer")} disabled={loading}>Vote Summer</button>
-        <button onClick={() => handleVote("autumn")} disabled={loading}>Vote Autumn</button>
-        <button onClick={() => handleVote("winter")} disabled={loading}>Vote Winter</button>
+    <div style={styles.container}>
+      <h1 style={styles.title}>Season War</h1>
+      <div style={styles.chartContainer}>
+        <Pie data={data} />
       </div>
 
-      <div style={{ marginTop: '20px' }}>
+      <div style={styles.buttonContainer}>
+        {["spring", "summer", "autumn", "winter"].map((season) => (
+          <button
+            key={season}
+            onClick={() => handleVote(season)}
+            disabled={loading}
+            style={styles.voteButton}
+          >
+            Vote {season.charAt(0).toUpperCase() + season.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      <div style={styles.resetContainer}>
         <h2>Reset Votes</h2>
-        <button onClick={() => handleReset()}>Reset All Seasons</button>
-        <button onClick={() => handleReset(["spring", "summer"])}>Reset Spring & Summer</button>
+        <button onClick={() => handleReset()} style={styles.resetButton}>Reset All Seasons</button>
+        <button onClick={() => handleReset(["spring", "summer"])} style={styles.resetButton}>Reset Spring & Summer</button>
       </div>
     </div>
   );
 }
+
+// Styles for the component
+const styles = {
+  container: {
+    textAlign: 'center',
+    padding: '20px',
+    maxWidth: '600px',
+    margin: '0 auto',
+  },
+  title: {
+    fontSize: '2rem',
+    marginBottom: '20px',
+  },
+  chartContainer: {
+    maxWidth: '100%',
+    margin: '0 auto',
+  },
+  buttonContainer: {
+    marginTop: '20px',
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+  },
+  voteButton: {
+    padding: '10px 20px',
+    margin: '5px',
+    backgroundColor: '#66c2a5',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s',
+  },
+  resetContainer: {
+    marginTop: '20px',
+  },
+  resetButton: {
+    margin: '5px',
+    padding: '10px 15px',
+    backgroundColor: '#fc8d62',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s',
+  },
+};
+
+// Hover effects for buttons
+const handleMouseOver = (e) => {
+  e.currentTarget.style.backgroundColor = '#54b48d';
+};
+
+const handleMouseOut = (e) => {
+  e.currentTarget.style.backgroundColor = '#66c2a5';
+};
+
+// Attach hover effects to vote buttons
+document.querySelectorAll('.voteButton').forEach(button => {
+  button.addEventListener('mouseover', handleMouseOver);
+  button.addEventListener('mouseout', handleMouseOut);
+});
 
 export default SeasonWar;
