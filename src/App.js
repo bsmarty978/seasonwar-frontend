@@ -23,7 +23,7 @@ function SeasonWar() {
 
   const fetchVotes = async () => {
     try {
-      const response = await axios.get("/votes");
+      const response = await axios.get("${process.env.REACT_APP_API_URL}/votes");
       setVotes(response.data);
       setLoading(false);
     } catch (error) {
@@ -36,7 +36,7 @@ function SeasonWar() {
   // Handle voting for a season
   const handleVote = async (season) => {
     try {
-      await axios.post("/vote", { season });
+      await axios.post("${process.env.REACT_APP_API_URL}/vote", { season });
       fetchVotes(); // Fetch updated votes after voting
     } catch (error) {
       console.error("Error voting:", error); // Log the error for debugging
@@ -47,7 +47,7 @@ function SeasonWar() {
   // Handle resetting votes for all or selected seasons
   const handleReset = async (seasons = null) => {
     try {
-      await axios.post("/reset", { seasons });
+      await axios.post("${process.env.REACT_APP_API_URL}/reset", { seasons });
       fetchVotes(); // Fetch updated votes after reset
     } catch (error) {
       console.error("Error resetting votes:", error); // Log the error for debugging
