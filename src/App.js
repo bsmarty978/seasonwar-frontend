@@ -23,37 +23,36 @@ function SeasonWar() {
 
   const fetchVotes = async () => {
     try {
-      const response = await axios.get("${process.env.REACT_APP_API_URL}/votes");
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/votes`);
       setVotes(response.data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching votes:", error); // Log the error for debugging
+      console.error("Error fetching votes:", error);
       setError("Error fetching votes");
       setLoading(false);
     }
   };
-
-  // Handle voting for a season
+  
   const handleVote = async (season) => {
     try {
-      await axios.post("${process.env.REACT_APP_API_URL}/vote", { season });
-      fetchVotes(); // Fetch updated votes after voting
+      await axios.post(`${process.env.REACT_APP_API_URL}/vote`, { season });
+      fetchVotes();
     } catch (error) {
-      console.error("Error voting:", error); // Log the error for debugging
+      console.error("Error voting:", error);
       setError("Error voting");
     }
   };
-
-  // Handle resetting votes for all or selected seasons
+  
   const handleReset = async (seasons = null) => {
     try {
-      await axios.post("${process.env.REACT_APP_API_URL}/reset", { seasons });
-      fetchVotes(); // Fetch updated votes after reset
+      await axios.post(`${process.env.REACT_APP_API_URL}/reset`, { seasons });
+      fetchVotes();
     } catch (error) {
-      console.error("Error resetting votes:", error); // Log the error for debugging
+      console.error("Error resetting votes:", error);
       setError("Error resetting votes");
     }
   };
+  
 
   // Data for the Pie chart
   const data = {
