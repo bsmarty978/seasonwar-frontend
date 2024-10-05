@@ -13,7 +13,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  transition: flex-grow 0.5s ease-in-out; /* Smooth size transitions */
+  transition: flex-grow 0.5s ease-in-out, transform 0.5s ease-in-out; /* Smooth size transitions */
 }
 
 /* Individual content within each slice */
@@ -33,17 +33,15 @@ h2 {
 
 /* Button styling */
 .vote-button {
-  padding: 10px 20px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 2px solid white;
-  color: white;
+  padding: 0;
+  background-color: transparent;
+  border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: transform 0.2s ease; /* Add push effect */
 }
 
 .vote-button:hover {
-  background-color: white;
-  color: black;
+  transform: scale(0.9); /* Push feel on hover */
 }
 
 /* Vote confirmation animation (+1) */
@@ -78,6 +76,12 @@ h2 {
   background-color: #c5d1e8;
 }
 
+/* Add hover styles for sections */
+.season-section.hover {
+  transform: scale(1.1); /* Slightly enlarge the section on hover */
+  z-index: 1; /* Bring hovered section to the front */
+}
+
 /* Media query for mobile responsiveness */
 @media (max-width: 768px) {
   .season-war-container {
@@ -100,7 +104,7 @@ h2 {
   }
 
   .vote-button {
-    padding: 8px 15px;
+    padding: 8px;
     font-size: 0.9rem;
   }
 }

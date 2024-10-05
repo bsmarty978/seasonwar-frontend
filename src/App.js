@@ -3,21 +3,29 @@ import axios from "axios";
 import "./SeasonWar.css"; // Use external CSS for styling
 
 const seasons = [
-  { name: "Spring", icon: "🌸" },
-  { name: "Summer", icon: "☀️" },
-  { name: "Monsoon", icon: "💧" },
-  { name: "Autumn", icon: "🍂" },
-  { name: "Winter", icon: "❄️" }
+  { name: "Spring", svgPath: `${process.env.PUBLIC_URL}/icons/spring.svg` },
+  { name: "Summer", svgPath: `${process.env.PUBLIC_URL}/icons/summer.svg` },
+  { name: "Monsoon", svgPath: `${process.env.PUBLIC_URL}/icons/monsoon.svg` },
+  { name: "Autumn", svgPath: `${process.env.PUBLIC_URL}/icons/autumn.svg` },
+  { name: "Winter", svgPath: `${process.env.PUBLIC_URL}/icons/winter.svg` }
 ];
 
 function SeasonWar() {
   const [votes, setVotes] = useState(seasons.map(season => ({ ...season, votes: 0 })));
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hoverSeason, setHoverSeason] = useState(null); // State for the hovered season
 
-  // Fetch current votes from the backend on component load
   useEffect(() => {
     fetchVotes();
+    const interval = setInterval(() => {
+      setVotes(prevVotes => prevVotes.map(season => ({
+        ...season,
+        randomFactor: Math.random() // For random grow/shrink effect
+      })));
+    }, 2000); // Adjust interval as needed
+
+    return () => clearInterval(interval); // Cleanup on unmount
   }, []);
 
   const fetchVotes = async () => {
@@ -52,14 +60,12 @@ function SeasonWar() {
     const element = document.getElementById(`vote-confirmation-${seasonName}`);
     if (element) {
       element.textContent = "+1";
-      element.style.opacity = "1";
+      element.classList.add("animate");
       setTimeout(() => {
-        element.style.opacity = "0";
+        element.classList.remove("animate");
       }, 1000);
     }
   };
-
-  const totalVotes = votes.reduce((total, season) => total + season.votes, 0);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -67,24 +73,29 @@ function SeasonWar() {
   return (
     <div className="season-war-container">
       {votes.map((season) => {
-        // Calculate the flex-grow value based on votes (more votes = larger section)
-        const flexGrow = totalVotes === 0 ? 1 : (season.votes / totalVotes) * 10; // Scale to make the effect noticeable
+        const flexGrow = season.randomFactor ? 1 + season.randomFactor * 0.5 : 1; // Adjust size based on random factor
 
         return (
           <div
             key={season.name}
-            className={`season-section ${season.name.toLowerCase()}`}
+            className={`season-section ${season.name.toLowerCase()} ${hoverSeason === season.name.toLowerCase() ? 'hover' : ''}`} // Apply hover class
             style={{ flexGrow }} // Dynamically set flex-grow
+            onMouseEnter={() => setHoverSeason(season.name.toLowerCase())}
+            onMouseLeave={() => setHoverSeason(null)}
           >
             <div className="content">
-              <div className="season-icon">{season.icon}</div>
+              <div className="season-icon">
+                <img src={season.svgPath} alt={season.name} width="80" height="80" style={{ fill: 'white' }} />
+              </div>
               <h2>{season.name}</h2>
               <p className="vote-count">Votes: {season.votes}</p>
               <button
                 className="vote-button"
                 onClick={() => handleVote(season.name.toLowerCase())}
               >
-                Vote
+                <svg width="30" height="30" fill="white">
+                  <path d="M10 20V4l6 4v12l-6 4z" /> {/* Example vote icon */}
+                </svg>
               </button>
               <div
                 id={`vote-confirmation-${season.name}`}
