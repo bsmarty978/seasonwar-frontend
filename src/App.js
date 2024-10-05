@@ -15,6 +15,7 @@ function SeasonWar() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [hoverSeason, setHoverSeason] = useState(null); // State for the hovered season
+  const [clickedSeason, setClickedSeason] = useState(null); // State to track clicked season for animation
 
   useEffect(() => {
     fetchVotes();
@@ -85,18 +86,22 @@ function SeasonWar() {
           >
             <div className="content">
               <div className="season-icon">
-                <img src={season.svgPath} alt={season.name} width="80" height="80" style={{ fill: 'white' }} />
+                <img 
+                  src={season.svgPath} 
+                  alt={season.name} 
+                  width="80" 
+                  height="80" 
+                  className={`season-svg ${clickedSeason === season.name ? 'clicked' : ''}`} 
+                  onClick={() => {
+                    handleVote(season.name.toLowerCase());
+                    setClickedSeason(season.name); // Set clicked season for animation
+                    setTimeout(() => setClickedSeason(null), 300); // Reset after animation duration
+                  }} 
+                  style={{ cursor: 'pointer' }} // Change cursor to pointer
+                />
               </div>
               <h2>{season.name}</h2>
               <p className="vote-count">Votes: {season.votes}</p>
-              <button
-                className="vote-button"
-                onClick={() => handleVote(season.name.toLowerCase())}
-              >
-                <svg width="30" height="30" fill="white">
-                  <path d="M10 20V4l6 4v12l-6 4z" /> {/* Example vote icon */}
-                </svg>
-              </button>
               <div
                 id={`vote-confirmation-${season.name}`}
                 className="vote-confirmation"

@@ -108,3 +108,11 @@ h2 {
     font-size: 0.9rem;
   }
 }
+
+.season-svg {
+  transition: transform 0.2s ease; /* Smooth transition */
+}
+
+.season-svg.clicked {
+  transform: scale(1.1); /* Scale up the icon */
+}
