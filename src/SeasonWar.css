@@ -1,0 +1,106 @@
+/* Container for the full viewport */
+.season-war-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out; /* Smooth transition for size changes */
+}
+
+/* Each season section (dynamic size based on flex-grow) */
+.season-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: flex-grow 0.5s ease-in-out; /* Smooth size transitions */
+}
+
+/* Individual content within each slice */
+.content {
+  text-align: center;
+  color: white;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+.vote-count {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+/* Button styling */
+.vote-button {
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid white;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.vote-button:hover {
+  background-color: white;
+  color: black;
+}
+
+/* Vote confirmation animation (+1) */
+.vote-confirmation {
+  position: absolute;
+  top: -20px;
+  opacity: 0;
+  font-size: 24px;
+  color: yellow;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.vote-confirmation.animate {
+  opacity: 1;
+  transform: translateY(-30px);
+}
+
+/* Section specific styles */
+.spring {
+  background-color: #a7d8a1;
+}
+.summer {
+  background-color: #f9d27d;
+}
+.monsoon {
+  background-color: #6ab6d9;
+}
+.autumn {
+  background-color: #e49b63;
+}
+.winter {
+  background-color: #c5d1e8;
+}
+
+/* Media query for mobile responsiveness */
+@media (max-width: 768px) {
+  .season-war-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .season-section {
+    flex: none;
+    width: 100%;
+    height: 20vh;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .vote-count {
+    font-size: 1.2rem;
+  }
+
+  .vote-button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+}
