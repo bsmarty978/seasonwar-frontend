@@ -92,20 +92,29 @@ h2 {
   .season-section {
     flex: none;
     width: 100%;
-    height: 20vh;
+    height: 20vh; /* Adjust this as needed */
+    display: flex; /* Ensure the content is centered */
+    justify-content: center; /* Centering for content */
+    align-items: center; /* Centering for content */
+    padding: 10px; /* Add padding for spacing */
   }
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.2rem; /* Adjust font size for mobile */
   }
 
   .vote-count {
-    font-size: 1.2rem;
+    font-size: 1rem; /* Adjust font size for mobile */
+  }
+
+  .season-svg {
+    width: 50px; /* Reduced icon size for mobile */
+    height: 50px; /* Reduced icon size for mobile */
   }
 
   .vote-button {
     padding: 8px;
-    font-size: 0.9rem;
+    font-size: 0.8rem; /* Adjust button font size for mobile */
   }
 }
 
