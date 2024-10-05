@@ -89,8 +89,8 @@ function SeasonWar() {
                 <img 
                   src={season.svgPath} 
                   alt={season.name} 
-                  width="80" 
-                  height="80" 
+                  width="50"  // Adjusted icon size for mobile
+                  height="50" // Adjusted icon size for mobile
                   className={`season-svg ${clickedSeason === season.name ? 'clicked' : ''}`} 
                   onClick={() => {
                     handleVote(season.name.toLowerCase());

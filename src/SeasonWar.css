@@ -108,8 +108,8 @@ h2 {
   }
 
   .season-svg {
-    width: 50px; /* Reduced icon size for mobile */
-    height: 50px; /* Reduced icon size for mobile */
+    width: 40px; /* Reduced icon size for mobile */
+    height: 40px; /* Reduced icon size for mobile */
   }
 
   .vote-button {
